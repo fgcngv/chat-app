@@ -1,4 +1,3 @@
-
 import { UserProfile } from "@/app/profile/page";
 import {
   createOrGetChannel,
@@ -61,6 +60,13 @@ export default function StreamChatInterface({
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     setShowScrollButton(false);
   }
+
+  interface VideoCallMessage {
+    call_id: string;
+    caller_id: string;
+    caller_name?: string;
+  }
+  
 
   function handleScroll() {
     if (messagesContainerRef.current) {
@@ -138,7 +144,11 @@ export default function StreamChatInterface({
         chatChannel.on("message.new", (event: Event) => {
           if (event.message) {
             if (event.message.text?.includes(`📹 Video call invitation`)) {
-              const customData = event.message as any;
+                //////////////////////////
+            //   const customData = event.message as any;
+            const customData = event.message as unknown as VideoCallMessage;
+            /////////////////////////
+
 
               if (customData.caller_id !== userId) {
                 setIncomingCallId(customData.call_id);
@@ -183,9 +193,12 @@ export default function StreamChatInterface({
 
         setClient(chatClient);
         setChannel(chatChannel);
-      } catch (error) {
+      }catch (err: unknown) {
+        const error = err as { message?: string };
+        console.error(error.message ?? err);
         router.push("/chat");
-      } finally {
+      }
+       finally {
         setLoading(false);
       }
     }

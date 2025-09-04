@@ -1,4 +1,3 @@
-
 "use client";
 
 import { UserProfile } from "@/app/profile/page";
@@ -31,10 +30,12 @@ export default function ChatConversationPage() {
           router.push("/chat");
         }
         console.log(userMatches);
-      } catch (error) {
-        console.error(error);
+      } catch (err: unknown) {
+        const error = err as { message?: string };
+        console.error(error.message ?? err);
         router.push("/chat");
-      } finally {
+      }
+       finally {
         setLoading(false);
       }
     }
@@ -69,9 +70,10 @@ export default function ChatConversationPage() {
             User not found
           </h2>
           <p className="text-gray-600 dark:text-gray-400 mb-6">
-            The user you're looking for doesn't exist or you don't have
-            permission to chat with them.
-          </p>
+  The user you&apos;re looking for doesn&apos;t exist or you don&apos;t have
+  permission to chat with them.
+</p>
+
           <button
             onClick={() => router.push("/chat")}
             className="bg-gradient-to-r from-pink-500 to-red-500 text-white font-semibold py-3 px-6 rounded-full hover:from-pink-600 hover:to-red-600 transition-all duration-200"
