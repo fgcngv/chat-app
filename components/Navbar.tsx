@@ -176,12 +176,14 @@
 "use client";
 import { useAuth } from "@/context/auth-context";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react"; // hamburger and X icons
+import LanguageDropdown from "./language";
 
 export default function Navbar() {
   const { signOut, user } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
+  
 
   return (
     <nav className="relative z-50 bg-slate-900 border-b border-gray-200/50 dark:border-gray-700/50">
@@ -306,8 +308,12 @@ export default function Navbar() {
               Sign Out
             </button>
           </div>
+          
         )}
+
       </div>
+
+      {/* <LanguageDropdown/> */}
     </nav>
   );
 }
